@@ -1,4 +1,4 @@
-# Tideland Go Libray
+# Tideland Go Data Structures and Algorithms
 
 [![GitHub release](https://img.shields.io/github/release/tideland/go-dsa.svg)](https://github.com/tideland/go-dsa)
 [![GitHub license](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://raw.githubusercontent.com/tideland/go-dsa/master/LICENSE)
