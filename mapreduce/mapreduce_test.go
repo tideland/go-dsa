@@ -60,7 +60,7 @@ func TestMapReduce(t *testing.T) {
 func BenchmarkMapReduce(b *testing.B) {
 	assert := asserts.NewPanic()
 	mr := &OrderMapReducer{b.N, make(map[int][]*OrderItem), make(map[string]*OrderItemAnalysis), assert}
-	mapreduce.MapReduce(mr)
+	assert.NoError(mapreduce.MapReduce(mr))
 }
 
 //--------------------

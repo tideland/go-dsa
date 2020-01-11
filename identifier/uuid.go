@@ -63,7 +63,9 @@ func NewUUIDv1() (UUID, error) {
 	now := uint64(time.Now().UnixNano()/100 + epoch)
 
 	clockSeqRand := [2]byte{}
-	rand.Read(clockSeqRand[:])
+	if _, err := rand.Read(clockSeqRand[:]); err != nil {
+		return uuid, err
+	}
 	clockSeq := binary.LittleEndian.Uint16(clockSeqRand[:])
 
 	timeLow := uint32(now & (0x100000000 - 1))
@@ -87,8 +89,12 @@ func NewUUIDv1() (UUID, error) {
 func NewUUIDv3(ns UUID, name []byte) (UUID, error) {
 	uuid := UUID{}
 	hash := md5.New()
-	hash.Write(ns.dump())
-	hash.Write(name)
+	if _, err := hash.Write(ns.dump()); err != nil {
+		return uuid, err
+	}
+	if _, err := hash.Write(name); err != nil {
+		return uuid, err
+	}
 	copy(uuid[:], hash.Sum([]byte{})[:16])
 
 	uuid.setVersion(UUIDv3)
@@ -114,8 +120,12 @@ func NewUUIDv4() (UUID, error) {
 func NewUUIDv5(ns UUID, name []byte) (UUID, error) {
 	uuid := UUID{}
 	hash := sha1.New()
-	hash.Write(ns.dump())
-	hash.Write(name)
+	if _, err := hash.Write(ns.dump()); err != nil {
+		return uuid, err
+	}
+	if _, err := hash.Write(name); err != nil {
+		return uuid, err
+	}
 	copy(uuid[:], hash.Sum([]byte{})[:16])
 
 	uuid.setVersion(UUIDv5)
