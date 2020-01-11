@@ -249,7 +249,9 @@ func macAddress() []byte {
 		}
 	}
 	// Need a random address.
-	rand.Read(address[:])
+	if _, err := rand.Read(address[:]); err != nil {
+		panic(err)
+	}
 	address[0] |= 0x01
 	return address[:]
 }
